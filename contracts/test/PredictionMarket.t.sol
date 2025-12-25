@@ -96,11 +96,6 @@ contract PredictionMarketTest is Test {
         vm.prank(oracle);
         market.resolve(true);
 
-        console.log("User1 Yes Shares:", market.yesShares(user1));
-        console.log("Total Yes Shares:", market.totalYesShares());
-        console.log("Total Pot:", market.totalYesStaked() + market.totalNoStaked());
-        console.log("Market Balance:", token.balanceOf(address(market)));
-
         // User 1 claims
         uint256 preBalance = token.balanceOf(user1);
         vm.prank(user1);

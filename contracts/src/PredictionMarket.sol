@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
-import {console} from "forge-std/console.sol";
 
 contract PredictionMarket {
     enum MarketState {
@@ -110,12 +109,8 @@ contract PredictionMarket {
         require(state == MarketState.RESOLVED, "Market not resolved");
         
         uint256 payout = 0;
-        console.log("Claimer:", msg.sender);
-        console.log("Resolved Outcome:", outcome);
-        
         if (outcome) { // YES Won
             uint256 userShares = yesShares[msg.sender];
-            console.log("User Shares (YES):", userShares);
             if (userShares > 0) {
                 // Share of the total pool (YES + NO)
                 // Payout = UserShares / TotalYesShares * (TotalYes + TotalNo)
@@ -133,11 +128,8 @@ contract PredictionMarket {
         }
 
         if (payout > 0) {
-            console.log("Claiming payout:", payout);
             details.collateralToken.transfer(msg.sender, payout);
             emit WinningsClaimed(msg.sender, payout);
-        } else {
-            console.log("Payout is zero");
         }
     }
 }
