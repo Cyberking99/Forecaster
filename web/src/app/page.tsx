@@ -2,35 +2,11 @@
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { MarketCard } from '@/components/MarketCard';
-import { parseEther } from 'viem';
-
-// Mock data
-const MOCK_MARKETS = [
-  {
-    id: "0x123...",
-    question: "Will Bitcoin hit $100k by end of 2024?",
-    yesShares: parseEther("600"),
-    noShares: parseEther("400"),
-    totalYes: parseEther("600"),
-    totalNo: parseEther("400"),
-    endTime: 1735689600n,
-    outcome: false,
-    resolved: false
-  },
-  {
-    id: "0x456...",
-    question: "Will Ethereum flip Bitcoin in 2025?",
-    yesShares: parseEther("200"),
-    noShares: parseEther("800"),
-    totalYes: parseEther("200"),
-    totalNo: parseEther("800"),
-    endTime: 1767225600n,
-    outcome: false,
-    resolved: false
-  }
-];
+import { useMarkets } from '@/hooks/useMarkets';
 
 export default function Home() {
+  const { markets, isLoading } = useMarkets();
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <header className="p-4 bg-white border-b shadow-sm flex justify-between items-center">
@@ -46,11 +22,19 @@ export default function Home() {
           <p className="text-gray-500">Predict the future and win.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {MOCK_MARKETS.map((market, index) => (
-            <MarketCard key={index} market={market} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="text-center py-10">Loading markets...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {markets.length === 0 ? (
+              <p>No markets found.</p>
+            ) : (
+              markets.map((market, index) => (
+                <MarketCard key={index} market={market} />
+              ))
+            )}
+          </div>
+        )}
       </main>
     </div>
   );
