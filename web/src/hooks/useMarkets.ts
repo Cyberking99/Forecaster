@@ -35,11 +35,11 @@ export function useMarkets() {
     };
 
     const contracts = (marketAddresses as `0x${string}`[] || []).flatMap((addr) => [
-        { ...marketsContractConfig, address: addr, functionName: 'details' },
-        { ...marketsContractConfig, address: addr, functionName: 'totalYesShares' },
-        { ...marketsContractConfig, address: addr, functionName: 'totalNoShares' },
-        { ...marketsContractConfig, address: addr, functionName: 'outcome' },
-        { ...marketsContractConfig, address: addr, functionName: 'state' },
+        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'details' },
+        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'totalYesShares' },
+        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'totalNoShares' },
+        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'outcome' },
+        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'state' },
     ]);
 
     const { data: results, isLoading } = useReadContracts({
