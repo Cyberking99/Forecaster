@@ -2,6 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {IERC20} from "forge-std/interfaces/IERC20.sol";
+import {console} from "forge-std/console.sol";
 
 contract PredictionMarket {
     enum MarketState {
@@ -128,8 +129,11 @@ contract PredictionMarket {
         }
 
         if (payout > 0) {
+            console.log("Claiming payout:", payout);
             details.collateralToken.transfer(msg.sender, payout);
             emit WinningsClaimed(msg.sender, payout);
+        } else {
+            console.log("Payout is zero");
         }
     }
 }
