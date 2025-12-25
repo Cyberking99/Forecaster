@@ -110,8 +110,12 @@ contract PredictionMarket {
         require(state == MarketState.RESOLVED, "Market not resolved");
         
         uint256 payout = 0;
+        console.log("Claimer:", msg.sender);
+        console.log("Resolved Outcome:", outcome);
+        
         if (outcome) { // YES Won
             uint256 userShares = yesShares[msg.sender];
+            console.log("User Shares (YES):", userShares);
             if (userShares > 0) {
                 // Share of the total pool (YES + NO)
                 // Payout = UserShares / TotalYesShares * (TotalYes + TotalNo)

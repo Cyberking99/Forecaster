@@ -102,8 +102,8 @@ contract PredictionMarketTest is Test {
         console.log("Market Balance:", token.balanceOf(address(market)));
 
         // User 1 claims
-        vm.prank(user1);
         uint256 preBalance = token.balanceOf(user1);
+        vm.prank(user1);
         market.claim();
         uint256 postBalance = token.balanceOf(user1);
 
