@@ -1,0 +1,39 @@
+{
+  "frame": {
+    "name": "Forecaster",
+    "version": "1",
+    "iconUrl": "https://forecaster-miniapp.vercel.app/icon.png",
+    "homeUrl": "https://forecaster-miniapp.vercel.app",
+    "imageUrl": "https://forecaster-miniapp.vercel.app/image.png",
+    "buttonTitle": "Forecast",
+    "splashImageUrl": "https://forecaster-miniapp.vercel.app/splash.png",
+    "splashBackgroundColor": "#EEF2FF",
+    "webhookUrl": "https://forecaster-miniapp.vercel.app/api/webhook",
+    "subtitle": "Turn Your Convictions Into Capital",
+    "primaryCategory": "games",
+    "description": "Forecaster brings liquid prediction markets to your social feed. Powered by Base and AI, it’s the fastest way to trade on news, culture, and crypto events directly within Farcaster.",
+    "ogTitle": "Forecaster - Predict and Win",
+    "ogDescription": "Forecaster brings liquid prediction markets to your social feed. Powered by Base and AI.",
+    "ogImageUrl": "https://swapden.vercel.app/og.png",
+    "screenshotUrls": [
+      "https://swapden.vercel.app/screenshot1.jpg",
+      "https://swapden.vercel.app/screenshot2.jpg",
+      "https://swapden.vercel.app/screenshot3.jpg",
+      "https://swapden.vercel.app/screenshot4.jpg"
+    ],
+    "heroImageUrl": "https://swapden.vercel.app/og.png",
+    "tagline": "Turn Your Convictions Into Capital",
+    "tags": [
+      "defi",
+      "token",
+      "swap",
+      "exchange",
+      "usdc"
+    ]
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjg3MDQ0OSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweEU4ODczM2JDNjQ5NzVFNjRFQzZiMGZCQjdGNTQ1NzlFNGJCOUFiYTgifQ",
+    "payload": "eyJkb21haW4iOiJzd2FwZGVuLnZlcmNlbC5hcHAifQ",
+    "signature": "oOWnTOp+nznfJd1f78rO/TRn51vlRz2l4Vd0C/bHBi8LZfujBr4C4CK7/5cd5DPguYVkQj6kPNAyAGLQyooFfRs="
+  }
+}
