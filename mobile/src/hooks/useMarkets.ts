@@ -51,6 +51,7 @@ export function useMarkets() {
     const markets: MarketData[] = [];
 
     if (results && marketAddresses) {
+        console.log(results);
         const numFields = 5; // details, totalYes, totalNo, outcome, state
         for (let i = 0; i < marketAddresses.length; i++) {
             const baseIndex = i * numFields;
@@ -63,12 +64,12 @@ export function useMarkets() {
             if (details) {
                 markets.push({
                     address: marketAddresses[i] as `0x${string}`,
-                    question: details.question,
+                    question: details[0],
                     yesShares: 0n, // Individual User shares typically fetched separately
                     noShares: 0n,
                     totalYes: totalYes || 0n,
                     totalNo: totalNo || 0n,
-                    endTime: details.endTime,
+                    endTime: details[4],
                     outcome: outcome,
                     resolved: state === 1, // MarketState.RESOLVED
                 });
