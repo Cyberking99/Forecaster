@@ -30,10 +30,5 @@
       "exchange",
       "usdc"
     ]
-  },
-  "accountAssociation": {
-    "header": "eyJmaWQiOjg3MDQ0OSwidHlwZSI6ImF1dGgiLCJrZXkiOiIweEU4ODczM2JDNjQ5NzVFNjRFQzZiMGZCQjdGNTQ1NzlFNGJCOUFiYTgifQ",
-    "payload": "eyJkb21haW4iOiJzd2FwZGVuLnZlcmNlbC5hcHAifQ",
-    "signature": "oOWnTOp+nznfJd1f78rO/TRn51vlRz2l4Vd0C/bHBi8LZfujBr4C4CK7/5cd5DPguYVkQj6kPNAyAGLQyooFfRs="
   }
 }
