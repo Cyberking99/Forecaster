@@ -12,6 +12,7 @@ import {
 } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
+import { farcasterWallet } from './FarcasterWallet';
 
 const { wallets } = getDefaultWallets();
 
@@ -20,7 +21,13 @@ const projectId = process.env.NEXT_PUBLIC_REOWN_APP_ID as string;
 const config = getDefaultConfig({
     appName: 'Forecaster',
     projectId: projectId,
-    wallets: wallets,
+    wallets: [
+        ...wallets,
+        {
+            groupName: 'Farcaster',
+            wallets: [farcasterWallet],
+        },
+    ],
     chains: [
         base,
     ],
