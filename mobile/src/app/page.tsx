@@ -20,7 +20,7 @@ export default function Home() {
     <div className="min-h-screen pb-20">
       {/* Mobile Header */}
       <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b p-4 flex justify-between items-center">
-        <span className="font-bold text-lg">Forecaster</span>
+        <span className="font-bold text-lg"><img src="/icon.png" alt="" className="w-6 h-6" /></span>
         <div className="transform scale-90 origin-right">
           <ConnectButton showBalance={false} chainStatus="icon" accountStatus="avatar" />
         </div>
