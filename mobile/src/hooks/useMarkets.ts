@@ -17,6 +17,7 @@ export interface MarketData {
     endTime: bigint;
     outcome: boolean;
     resolved: boolean;
+    collateralToken: `0x${string}`;
 }
 
 export function useMarkets() {
@@ -33,25 +34,26 @@ export function useMarkets() {
     // For simplicity, let's just fetch details and state struct first.
     const marketsContractConfig = {
         abi: PredictionMarketABI.abi,
+        address: undefined, // Will be set in map
     };
 
-    const contracts = (marketAddresses as `0x${string}`[] || []).flatMap((addr) => [
-        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'details' },
-        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'totalYesShares' },
-        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'totalNoShares' },
-        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'outcome' },
-        { ...marketsContractConfig, abi: marketsContractConfig.abi as any, address: addr, functionName: 'state' },
+    const contracts = (marketAddresses || []).flatMap((addr) => [
+        { ...marketsContractConfig, abi: PredictionMarketABI.abi, address: addr, functionName: 'details' },
+        { ...marketsContractConfig, abi: PredictionMarketABI.abi, address: addr, functionName: 'totalYesShares' },
+        { ...marketsContractConfig, abi: PredictionMarketABI.abi, address: addr, functionName: 'totalNoShares' },
+        { ...marketsContractConfig, abi: PredictionMarketABI.abi, address: addr, functionName: 'outcome' },
+        { ...marketsContractConfig, abi: PredictionMarketABI.abi, address: addr, functionName: 'state' },
     ]);
 
     const { data: results, isLoading } = useReadContracts({
-        contracts: contracts,
+        contracts: contracts as any,
     });
 
     // 3. Parse results into structured MarketData objects
     const markets: MarketData[] = [];
 
     if (results && marketAddresses) {
-        console.log(results);
+        // console.log(results);
         const numFields = 5; // details, totalYes, totalNo, outcome, state
         for (let i = 0; i < marketAddresses.length; i++) {
             const baseIndex = i * numFields;
@@ -69,9 +71,10 @@ export function useMarkets() {
                     noShares: 0n,
                     totalYes: totalYes || 0n,
                     totalNo: totalNo || 0n,
-                    endTime: details[4],
+                    endTime: details[2],
                     outcome: outcome,
                     resolved: state === 1, // MarketState.RESOLVED
+                    collateralToken: details[5] as `0x${string}`,
                 });
             }
         }

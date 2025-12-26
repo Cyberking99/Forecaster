@@ -1,32 +1,62 @@
-'use client';
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter, DrawerTrigger, DrawerClose } from '@/components/ui/drawer';
-import { formatEther, parseEther } from 'viem';
+import { formatUnits, parseUnits, erc20Abi } from 'viem';
 import { MarketData } from '@/hooks/useMarkets';
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from 'wagmi';
 import PredictionMarketABI from '@/abis/PredictionMarket.json';
 
 export function MobileMarketCard({ market }: { market: MarketData }) {
+    const { address } = useAccount();
     const [amount, setAmount] = useState('');
     const [selectedOutcome, setSelectedOutcome] = useState<boolean | null>(null);
     const totalPool = market.totalYes + market.totalNo;
     const yesProb = totalPool > 0n ? Number((market.totalYes * 100n) / totalPool) : 50;
     const noProb = 100 - yesProb;
 
-    const { writeContract, data: hash, isPending } = useWriteContract();
-    const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+    // Buying hooks
+    const { writeContract: writeBuy, data: buyHash, isPending: isBuyPending } = useWriteContract();
+    const { isLoading: isBuyConfirming, isSuccess: isBuySuccess } = useWaitForTransactionReceipt({ hash: buyHash });
+
+    // Approval hooks
+    const { writeContract: writeApprove, data: approveHash, isPending: isApprovePending } = useWriteContract();
+    const { isLoading: isApproveConfirming, isSuccess: isApproveSuccess } = useWaitForTransactionReceipt({ hash: approveHash });
+
+    const { data: allowance, refetch: refetchAllowance } = useReadContract({
+        address: market.collateralToken,
+        abi: erc20Abi,
+        functionName: 'allowance',
+        args: address ? [address, market.address] : undefined,
+    });
+
+    const parsedAmount = amount ? parseUnits(amount, 6) : 0n;
+    const needsApproval = (allowance ?? 0n) < parsedAmount;
+
+    useEffect(() => {
+        if (isApproveSuccess) {
+            refetchAllowance();
+        }
+    }, [isApproveSuccess, refetchAllowance]);
+
+    const handleApprove = () => {
+        if (!amount) return;
+        writeApprove({
+            address: market.collateralToken,
+            abi: erc20Abi,
+            functionName: 'approve',
+            args: [market.address, parseUnits(amount, 6)],
+        });
+    };
 
     const handleBuy = () => {
         if (!amount || selectedOutcome === null) return;
-        writeContract({
+        writeBuy({
             address: market.address,
             abi: PredictionMarketABI.abi,
             functionName: 'buyShares',
-            args: [selectedOutcome, parseEther(amount)],
+            args: [selectedOutcome, parseUnits(amount, 6)],
         });
     };
 
@@ -70,23 +100,38 @@ export function MobileMarketCard({ market }: { market: MarketData }) {
 
                             <Input
                                 type="number"
-                                placeholder="Amount (ETH)"
+                                placeholder="Amount (USDC)"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
                                 className="text-lg py-6"
                             />
 
-                            {hash && <div className="text-xs text-blue-500 truncate">Tx: {hash}</div>}
-                            {isConfirming && <div className="text-xs text-orange-500">Confirming...</div>}
-                            {isSuccess && <div className="text-xs text-green-500">Transaction Confirmed!</div>}
+                            {/* Status Messages */}
+                            {approveHash && <div className="text-xs text-blue-500 truncate">Approve Tx: {approveHash}</div>}
+                            {isApproveConfirming && <div className="text-xs text-orange-500">Approving...</div>}
+                            {isApproveSuccess && <div className="text-xs text-green-500">Approved!</div>}
 
-                            <Button
-                                className="w-full py-6 text-lg"
-                                onClick={handleBuy}
-                                disabled={!amount || selectedOutcome === null || isPending}
-                            >
-                                {isPending ? "Confirming..." : "Swipe to Buy (Tap)"}
-                            </Button>
+                            {buyHash && <div className="text-xs text-blue-500 truncate">Buy Tx: {buyHash}</div>}
+                            {isBuyConfirming && <div className="text-xs text-orange-500">Confirming Buy...</div>}
+                            {isBuySuccess && <div className="text-xs text-green-500">Prediction Placed!</div>}
+
+                            {needsApproval ? (
+                                <Button
+                                    className="w-full py-6 text-lg"
+                                    onClick={handleApprove}
+                                    disabled={!amount || isApprovePending || isApproveConfirming}
+                                >
+                                    {isApprovePending || isApproveConfirming ? "Approving..." : "Approve USDC"}
+                                </Button>
+                            ) : (
+                                <Button
+                                    className="w-full py-6 text-lg"
+                                    onClick={handleBuy}
+                                    disabled={!amount || selectedOutcome === null || isBuyPending || isBuyConfirming}
+                                >
+                                    {isBuyPending || isBuyConfirming ? "Confirming..." : "Swipe to Buy (Tap)"}
+                                </Button>
+                            )}
                         </div>
                         <DrawerFooter>
                             <DrawerClose asChild>
