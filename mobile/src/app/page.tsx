@@ -7,6 +7,7 @@ import { useMarkets } from '@/hooks/useMarkets';
 import { sdk } from '@farcaster/miniapp-sdk'
 import { Home as HomeIcon, Search, User } from 'lucide-react';
 import { useFarcasterUser } from '@/hooks/useFarcasterUser';
+import Link from 'next/link';
 
 export default function Home() {
   const { markets, isLoading } = useMarkets();
@@ -48,15 +49,15 @@ export default function Home() {
 
       {/* Bottom Nav Mockup */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex justify-around text-gray-500 text-xs">
-        <div className="flex flex-col items-center text-black font-semibold">
+        <Link href="/" className="flex flex-col items-center text-black font-semibold">
           <HomeIcon className="w-6 h-6 mb-1" />
           <span>Home</span>
-        </div>
+        </Link>
         <div className="flex flex-col items-center">
           <Search className="w-6 h-6 mb-1" />
           <span>Search</span>
         </div>
-        <div className="flex flex-col items-center cursor-pointer">
+        <Link href="/profile" className="flex flex-col items-center cursor-pointer">
           {user?.pfpUrl ? (
             <img
               src={user.pfpUrl}
@@ -67,7 +68,7 @@ export default function Home() {
             <User className="w-6 h-6 mb-1" />
           )}
           <span>Profile</span>
-        </div>
+        </Link>
       </nav>
     </div>
   );
