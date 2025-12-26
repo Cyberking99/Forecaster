@@ -30,6 +30,8 @@ export function MobileMarketCard({ market }: { market: MarketData }) {
         });
     };
 
+    console.log(market);
+
     return (
         <Card className="mb-4 shadow-sm active:scale-[0.98] transition-transform">
             <CardContent className="p-4">
