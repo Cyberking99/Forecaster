@@ -5,6 +5,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { MobileMarketCard } from '@/components/MobileMarketCard';
 import { useMarkets } from '@/hooks/useMarkets';
 import { sdk } from '@farcaster/miniapp-sdk'
+import { Home as HomeIcon, Search, User } from 'lucide-react';
 
 export default function Home() {
   const { markets, isLoading } = useMarkets();
@@ -46,12 +47,15 @@ export default function Home() {
       {/* Bottom Nav Mockup */}
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex justify-around text-gray-500 text-xs">
         <div className="flex flex-col items-center text-black font-semibold">
+          <HomeIcon className="w-6 h-6 mb-1" />
           <span>Home</span>
         </div>
         <div className="flex flex-col items-center">
+          <Search className="w-6 h-6 mb-1" />
           <span>Search</span>
         </div>
         <div className="flex flex-col items-center">
+          <User className="w-6 h-6 mb-1" />
           <span>Profile</span>
         </div>
       </nav>
