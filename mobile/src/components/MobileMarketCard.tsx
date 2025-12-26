@@ -133,7 +133,7 @@ export function MobileMarketCard({ market }: { market: MarketData }) {
                                 </Button>
                             )}
                         </div>
-                        <DrawerFooter>
+                        <DrawerFooter className="pb-10">
                             <DrawerClose asChild>
                                 <Button variant="outline">Cancel</Button>
                             </DrawerClose>
