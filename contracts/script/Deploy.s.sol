@@ -3,7 +3,6 @@ pragma solidity ^0.8.19;
 
 import {Script, console} from "forge-std/Script.sol";
 import {MarketFactory} from "../src/MarketFactory.sol";
-import {MockERC20} from "../src/MockERC20.sol";
 
 contract DeployScript is Script {
     function setUp() public {}
@@ -17,8 +16,8 @@ contract DeployScript is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         // 1. Deploy Mock Token
-        MockERC20 token = new MockERC20();
-        console.log("MockERC20 deployed at:", address(token));
+        // MockERC20 token = new MockERC20();
+        // console.log("MockERC20 deployed at:", address(token));
 
         // 2. Deploy MarketFactory
         MarketFactory factory = new MarketFactory();

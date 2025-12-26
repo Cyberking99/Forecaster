@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import { Providers } from "../../components/Providers";
+import { Providers } from "../components/Providers";
 
 export const metadata: Metadata = {
   title: "Forecaster",

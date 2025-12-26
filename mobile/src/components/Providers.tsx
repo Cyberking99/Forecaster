@@ -8,7 +8,12 @@ import {
     getDefaultConfig,
 } from '@rainbow-me/rainbowkit';
 import {
-    base
+    base,
+    baseSepolia,
+    polygon,
+    arbitrum,
+    mainnet,
+    foundry
 } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
@@ -22,9 +27,14 @@ const config = getDefaultConfig({
     projectId: projectId,
     wallets: wallets,
     chains: [
-        base
+        foundry,
+        base,
+        baseSepolia,
+        mainnet,
+        polygon,
+        arbitrum,
     ],
-    ssr: false,
+    ssr: true,
 });
 
 const queryClient = new QueryClient();

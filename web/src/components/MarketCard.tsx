@@ -64,7 +64,7 @@ export function MarketCard({ market }: { market: MarketData }) {
                 {isConfirming && <div className="text-xs text-orange-500">Confirming...</div>}
                 {isSuccess && <div className="text-xs text-green-500">Transaction Confirmed!</div>}
             </CardContent>
-            <CardFooter className="flex justify-between gap-2">
+            <CardFooter className="flex flex-col sm:flex-row justify-between gap-2">
                 <Button
                     variant="outline"
                     className="w-full border-red-500 text-red-500 hover:bg-red-50"
