@@ -1,11 +1,20 @@
 'use client';
 
+import { useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { MobileMarketCard } from '@/components/MobileMarketCard';
 import { useMarkets } from '@/hooks/useMarkets';
+import { sdk } from '@farcaster/miniapp-sdk'
 
 export default function Home() {
   const { markets, isLoading } = useMarkets();
+
+  useEffect(() => {
+    const init = async () => {
+      await sdk.actions.ready();
+    };
+    init();
+  }, []);
 
   return (
     <div className="min-h-screen pb-20">
