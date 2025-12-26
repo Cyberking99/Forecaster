@@ -11,7 +11,7 @@
     "webhookUrl": "https://forecaster-miniapp.vercel.app/api/webhook",
     "subtitle": "Turn Convictions Into Capital",
     "primaryCategory": "games",
-    "description": "Liquid prediction markets on your feed. Powered by Base + AI, trade on news, culture, and crypto events directly within Farcaster.",
+    "description": "Liquid prediction markets on your feed. Powered by Base, trade on news, culture, and crypto events directly within Farcaster.",
     "ogTitle": "Forecaster - Predict and Win",
     "ogDescription": "Forecaster brings liquid prediction markets to your social feed. Powered by Base and AI.",
     "ogImageUrl": "https://forecaster-miniapp.vercel.app/og.png",
