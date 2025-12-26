@@ -6,9 +6,11 @@ import { MobileMarketCard } from '@/components/MobileMarketCard';
 import { useMarkets } from '@/hooks/useMarkets';
 import { sdk } from '@farcaster/miniapp-sdk'
 import { Home as HomeIcon, Search, User } from 'lucide-react';
+import { useFarcasterUser } from '@/hooks/useFarcasterUser';
 
 export default function Home() {
   const { markets, isLoading } = useMarkets();
+  const { user } = useFarcasterUser();
 
   useEffect(() => {
     const init = async () => {
@@ -54,8 +56,16 @@ export default function Home() {
           <Search className="w-6 h-6 mb-1" />
           <span>Search</span>
         </div>
-        <div className="flex flex-col items-center">
-          <User className="w-6 h-6 mb-1" />
+        <div className="flex flex-col items-center cursor-pointer">
+          {user?.pfpUrl ? (
+            <img
+              src={user.pfpUrl}
+              alt={user.username || "Profile"}
+              className="w-6 h-6 rounded-full mb-1 object-cover"
+            />
+          ) : (
+            <User className="w-6 h-6 mb-1" />
+          )}
           <span>Profile</span>
         </div>
       </nav>
