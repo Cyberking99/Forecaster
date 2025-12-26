@@ -21,11 +21,12 @@ export interface MarketData {
 
 export function useMarkets() {
     // 1. Get list of market addresses from Factory
-    const { data: marketAddresses } = useReadContract({
+    const { data: marketAddressesData } = useReadContract({
         address: FACTORY_ADDRESS,
         abi: MarketFactoryABI.abi,
         functionName: 'getMarkets',
     });
+    const marketAddresses = marketAddressesData as `0x${string}`[] | undefined;
 
     // 2. Prepare contract calls for each market (multicall)
     // We need to fetch details, yesShares, noShares, etc.
